@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
 require('dotenv').config()
 
+var express = require('express');
+var router = express.Router();
+
+let request = require('request');
 const getLines = require('../services/metro/lines');
 
 
@@ -20,6 +22,7 @@ router.get('/webhook', function (req, res) {
 router.post('/webhook', async function (req, res) {
 
     var text = 'Erro';
+    console.log(req.body);
     var data = req.body;
 
     if (data && data.object == 'page') {

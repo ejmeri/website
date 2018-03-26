@@ -3,7 +3,6 @@ var favicon = require('serve-favicon');
 var engine = require('consolidate');
 var express = require('express');
 var app = express();
-var request = require('request');
 var bodyParser = require('body-parser');
 
 var http = require('http');
@@ -19,10 +18,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const consign = require('consign');
 
-
 consign()
     .include("routes")
     .into(app);
+
+// error handler
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+module.exports = app;
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function () {
     var addr = server.address();

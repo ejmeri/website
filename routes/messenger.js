@@ -56,11 +56,13 @@ router.post('/webhook', async function (req, res) {
                                 break;
                             case 'Amarela':
                                 getLines().then(function (value) {
-                                    text = `Status: ${value.CurrentLineStatus.Status} - ${value.CurrentLineStatus.DateUpdateFormated}`;
+                                    text = `Status: ${value.CurrentLineStatus.Status} :)\n\n`;
 
                                     if (value.CurrentLineStatus.Description) {
-                                        text += `Descrição: ${value.CurrentLineStatus.Description}`;
+                                        text += `Descrição: ${value.CurrentLineStatus.Description}\n\n`;
                                     }
+
+                                    text+= `Horário: ${value.CurrentLineStatus.DateUpdateFormated}`;
 
                                     sendTextMessage(event.sender.id, text);
                                 }).catch(err => {
@@ -243,14 +245,17 @@ async function sendStatusLine(payload) {
         line = v.Color;
 
         if (payload == line) {
-            text = `Status da linha ${v.Line}: ${v.StatusMetro} - ${retorno.StatusMetro.DateUpdateMetro}`;
-
+            text = `Status da linha ${v.Line}: ${v.StatusMetro}`;
+            
             if (v.Status == 0) text += ' :) ';
             else text += ' :( ';
 
             if (v.Description) {
-                text += `\n${v.Description}`;
+                text += `\n\n${v.Description}`;
             }
+
+            
+            text += `\nHorário:${retorno.StatusMetro.DateUpdateMetro}`;
 
         }
     });

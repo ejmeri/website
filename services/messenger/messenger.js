@@ -164,3 +164,24 @@ exports.sendStatusLine = async (payload) => {
     return text;
 
 }
+
+
+exports.sendStatusLineYellow = async () => {
+    var text = '';
+    
+    getLines().then(function (value) {
+        text = `Status: ${value.CurrentLineStatus.Status} :)\n\n`;
+
+        if (value.CurrentLineStatus.Description) {
+            text += `Descrição: ${value.CurrentLineStatus.Description}\n\n`;
+        }
+
+        text += `Horário: ${value.CurrentLineStatus.DateUpdateFormated}`;
+
+    }).catch(err => {
+       text = err;
+    });
+
+    return text;
+
+}

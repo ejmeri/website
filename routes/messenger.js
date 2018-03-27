@@ -39,10 +39,19 @@ router.post('/webhook', async function (req, res) {
                         else if (payload == 'HELP_PAYLOAD')
                             Messenger.sendTextMessage(event.sender.id, 'Olá, sou o Metrozera :)\n\nPara ver o status de alguma linha utitlize o menu :D');
                         else {
-                            if (payload == 'Lilas') { payload = payload.replace('a', 'á'); }
+                            if (payload == 'Lilas')
+                                payload = payload.replace('a', 'á');
 
-                            text = await Messenger.sendStatusLine(payload);
+                            if (payload == 'Amarela')
+                                text = await Messenger.sendStatusLineYellow();
+                            else if (payload == 'cptm') {
+                                sendMenuCptm(event.sender.id);
+                                text = 'Em breve, teremos status com as linhas da CPTM :)'
+                            } else
+                                text = await Messenger.sendStatusLine(payload);
+
                             Messenger.sendTextMessage(event.sender.id, text);
+
                         }
 
                     } else {

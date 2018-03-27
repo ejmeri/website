@@ -119,7 +119,7 @@ exports.sendMenuCptm = (recipientId) => {
         }
     };
 
-    this.callSendApi(messageData);
+    callSendApi(messageData);
 }
 
 exports.sendTextMessage = async (recipientId, messageText) => {

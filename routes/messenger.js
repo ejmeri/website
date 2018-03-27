@@ -46,7 +46,7 @@ router.post('/webhook', async function (req, res) {
                         }
 
                     } else {
-                        Messenger.sendTextMessage(event.sender.id, 'Error 404');
+                        return;
                     }
                 }
             });

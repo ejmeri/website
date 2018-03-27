@@ -45,7 +45,7 @@ class Messenger {
         };
 
 
-        callSendApi(messageData);
+        this.callSendApi(messageData);
     }
 
     sendMenuCptm(recipientId) {
@@ -69,7 +69,7 @@ class Messenger {
             }
         };
 
-        callSendApi(messageData);
+        this.callSendApi(messageData);
     }
 
     sendFirstMenu(recipientId) {
@@ -115,7 +115,7 @@ class Messenger {
             }
         };
 
-        callSendApi(messageData);
+        this.callSendApi(messageData);
     }
 
     callSendApi(messageData) {
@@ -169,6 +169,5 @@ class Messenger {
     }
 
 }
-
 
 module.exports = Messenger;

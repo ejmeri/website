@@ -33,7 +33,6 @@ router.post('/webhook', async function (req, res) {
                     trataMessage(event);
                 } else {
                     if (event.postback && event.postback.payload) {
-                        console.log("Pay load founded", event.postback.payload);
                         var payload = event.postback.payload;
 
                         if (payload == 'GET_STARTED_PAYLOAD')
@@ -49,7 +48,7 @@ router.post('/webhook', async function (req, res) {
                         }
 
                     } else
-                        Messenger.prototype.sendTextMessage(event.sender.id, 'Error 404');
+                        Messenger.sendTextMessage(event.sender.id, 'Error 404');
                 }
             });
         });

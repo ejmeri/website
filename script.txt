@@ -1,0 +1,53 @@
+
+                        switch (event.postback.payload) {
+                            case 'GET_STARTED_PAYLOAD':
+                                break;
+                            case 'HELP_PAYLOAD':
+                                Messenger.sendTextMessage(event.sender.id, 'Olá, sou o Metrozera :)\n\nPara ver o status de alguma linha utitlize o menu :D');
+                                break;
+                            case 'Azul':
+                                text = await Messenger.sendStatusLine(event.postback.payload);
+                                Messenger.sendTextMessage(event.sender.id, text);
+                                break;
+                            case 'Lilas':
+                                var payload = event.postback.payload.replace('a', 'á');
+                                text = await sendStatusLine(payload);
+                                Messenger.sendTextMessage(event.sender.id, text);
+                                break;
+                            case 'Amarela':
+                                getLines().then(function (value) {
+                                    text = `Status: ${value.CurrentLineStatus.Status} :)\n\n`;
+
+                                    if (value.CurrentLineStatus.Description) {
+                                        text += `Descrição: ${value.CurrentLineStatus.Description}\n\n`;
+                                    }
+
+                                    text += `Horário: ${value.CurrentLineStatus.DateUpdateFormated}`;
+
+                                    sendTextMessage(event.sender.id, text);
+                                }).catch(err => {
+                                    sendTextMessage(event.sender.id, err);
+                                });
+                                break;
+                            case 'Verde':
+                                text = await sendStatusLine(event.postback.payload);
+                                sendTextMessage(event.sender.id, text);
+                                break;
+                            case 'Vermelha':
+                                text = await sendStatusLine(event.postback.payload);
+                                sendTextMessage(event.sender.id, text);
+                                break;
+                            case 'Prata':
+                                text = await sendStatusLine(event.postback.payload);
+                                sendTextMessage(event.sender.id, text);
+                                break;
+                            case 'cptm':
+                                sendMenuCptm(event.sender.id);
+                                sendTextMessage(event.sender.id, "Em breve, teremos status com as linhas da CPTM :)");
+                            case 'status':
+                                sendFirstMenu(event.sender.id);
+                                break;
+                            default:
+                                sendTextMessage(event.sender.id, 'É isso por enquanto');
+                                break;
+                        }

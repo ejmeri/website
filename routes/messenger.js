@@ -1,9 +1,8 @@
 require('dotenv').config()
 
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 
-const Messenger = require('../services/messenger/messenger');
+var Messenger = require('../services/messenger/messenger');
 
 router.get('/', (req, res) => {
     res.send();
@@ -40,20 +39,20 @@ router.post('/webhook', async function (req, res) {
                         else if (payload == 'HELP_PAYLOAD')
                             Messenger.sendTextMessage(event.sender.id, 'Olá, sou o Metrozera :)\n\nPara ver o status de alguma linha utitlize o menu :D');
                         else {
-                            if (payload == 'Lilas')
-                                payload = payload.replace('a', 'á');
+                            if (payload == 'Lilas') { payload = payload.replace('a', 'á'); }
 
-                            payload = await Messenger.sendStatusLine(payload);
-                            Messenger.sendTextMessage(event.sender.id, payload);
+                            text = await Messenger.sendStatusLine(payload);
+                            Messenger.sendTextMessage(event.sender.id, text);
                         }
 
-                    } else
+                    } else {
                         Messenger.sendTextMessage(event.sender.id, 'Error 404');
+                    }
                 }
             });
         });
 
-        res.send();
+        res.status(200).send();
     }
 
 });

@@ -123,48 +123,44 @@ function callSendApi(messageData) {
 
 }
 
-module.exports = {
+exports.sendTextMessage = (recipientId, messageText) => {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+        }
+    };
 
-    sendTextMessage(recipientId, messageText) {
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                text: messageText
+    callSendApi(messageData);
+}
+
+exports.sendStatusLine = async (payload) => {
+    var text = 'erro';
+    var retorno = await getLines();
+
+    var line = '';
+
+    retorno.StatusMetro.ListLineStatus.forEach(function (v, i) {
+        line = v.Color;
+
+        if (payload == line) {
+            text = `Status da linha ${v.Line}: ${v.StatusMetro}`;
+
+            if (v.Status == 0) text += ' :) ';
+            else text += ' :( ';
+
+            if (v.Description) {
+                text += `\n\n${v.Description}`;
             }
-        };
-
-        callSendApi(messageData);
-    },
-
-    async sendStatusLine(payload) {
-        var text = 'erro';
-        var retorno = await getLines();
-
-        var line = '';
-
-        retorno.StatusMetro.ListLineStatus.forEach(function (v, i) {
-            line = v.Color;
-
-            if (payload == line) {
-                text = `Status da linha ${v.Line}: ${v.StatusMetro}`;
-
-                if (v.Status == 0) text += ' :) ';
-                else text += ' :( ';
-
-                if (v.Description) {
-                    text += `\n\n${v.Description}`;
-                }
 
 
-                text += `\nHorário: ${retorno.StatusMetro.DateUpdateMetro}`;
+            text += `\nHorário: ${retorno.StatusMetro.DateUpdateMetro}`;
 
-            }
-        });
+        }
+    });
 
-        return text;
-
-    }
+    return text;
 
 }

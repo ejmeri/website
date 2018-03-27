@@ -45,7 +45,7 @@ class Messenger {
         };
 
 
-        this.callSendApi(messageData);
+        // this.callSendApi(messageData);
     }
 
     sendMenuCptm(recipientId) {

@@ -143,6 +143,8 @@ class Messenger {
         var text = 'erro';
         var retorno = await getLines();
 
+        var line = any;
+
         retorno.StatusMetro.ListLineStatus.forEach(function (v, i) {
             line = v.Color;
 

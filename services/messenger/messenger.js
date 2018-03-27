@@ -1,38 +1,129 @@
-"use strict";
-
 let request = require('request');
 const getLines = require('../metro/lines');
 
-module.exports = {
 
-    trataMessage(event) {
-        var senderId = event.sender.id;
-        var recipientId = event.recipient.id;
-        var timeOfMessage = event.timestamp;
-        var message = event.message;
+function trataMessage(event) {
+    var senderId = event.sender.id;
+    var recipientId = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
 
-        var messageId = message.mid;
-        var messageText = message.text;
-        var files = message.attachments;
+    var messageId = message.mid;
+    var messageText = message.text;
+    var files = message.attachments;
 
 
-        if (messageText) {
+    if (messageText) {
 
-            switch (messageText) {
-                case 'oi':
-                    sendTextMessage(senderId, messageText);
-                    break;
-                case 'status':
-                    sendFirstMenu(senderId);
-                    break;
-                default:
-                    sendTextMessage(senderId, 'Entendi porra nenhuma.');
-                    break;
-            }
-        } else if (files) {
-            sendTextMessage(senderId, "Send more attachments.");
+        switch (messageText) {
+            case 'oi':
+                sendTextMessage(senderId, messageText);
+                break;
+            case 'status':
+                sendFirstMenu(senderId);
+                break;
+            default:
+                sendTextMessage(senderId, 'Entendi porra nenhuma.');
+                break;
         }
-    },
+    } else if (files) {
+        sendTextMessage(senderId, "Send more attachments.");
+    }
+}
+
+
+function sendMenuCptm(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "CPTM",
+                    buttons: [{
+                        type: "web_url",
+                        url: "http://www.cptm.sp.gov.br/Pages/Home.aspx",
+                        title: "Acesse o site da CPTM."
+                    }]
+                }
+            }
+        }
+    };
+
+    this.callSendApi(messageData);
+}
+
+function sendFirstMenu(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "Qual linha você procura?",
+                    buttons: [
+                        // {
+                        //   type:"web_url",
+                        //   url: "https://www.messenger.com",
+                        //   title:"Visit Messenger"
+                        // },
+                        {
+                            type: 'postback',
+                            title: 'Amarela',
+                            payload: '-Amarela'
+                        },
+                        {
+                            type: 'postback',
+                            title: 'Azul',
+                            payload: '-Azul'
+                        },
+                        {
+                            type: 'postback',
+                            title: 'Verde',
+                            payload: '-Verde'
+                        },
+                        {
+                            type: 'postback',
+                            title: 'Lilás',
+                            payload: '-Lilás'
+                        },
+                    ]
+                }
+            }
+        }
+    };
+
+    this.callSendApi(messageData);
+}
+
+function callSendApi(messageData) {
+    request({
+        url: 'https://graph.facebook.com/v2.12/me/messages',
+        qs: {
+            access_token: 'EAAC8xciVqogBAAKMrNIpB1gU1ewlACNc6dNtZAF1uc4G990OdDXMB9zn48sGLlkWIJZAezx9WVPsTHVRccRlGtnZCKBPXuKhrboK493EFySyZBmHvvjPQIrMOs3wDQgqeq7ELESIZCJVZAyTuZBNWpZCUhAZCXR4EVWAEQhRsyzo1Ra7whQDud7HN'
+        },
+        method: 'POST',
+        json: messageData,
+    }, function (err, res, body) {
+
+        if (err) {
+            console.log(err);
+        } else if (res.statusCode == 200) {
+            console.log(`Message sended. to ${body.recipient_id}`);
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
+        }
+    });
+
+}
+
+module.exports = {
 
     sendTextMessage(recipientId, messageText) {
         var messageData = {
@@ -45,97 +136,6 @@ module.exports = {
         };
 
         callSendApi(messageData);
-    },
-
-    sendMenuCptm(recipientId) {
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: "CPTM",
-                        buttons: [{
-                            type: "web_url",
-                            url: "http://www.cptm.sp.gov.br/Pages/Home.aspx",
-                            title: "Acesse o site da CPTM."
-                        }]
-                    }
-                }
-            }
-        };
-
-        this.callSendApi(messageData);
-    },
-
-    sendFirstMenu(recipientId) {
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: "Qual linha você procura?",
-                        buttons: [
-                            // {
-                            //   type:"web_url",
-                            //   url: "https://www.messenger.com",
-                            //   title:"Visit Messenger"
-                            // },
-                            {
-                                type: 'postback',
-                                title: 'Amarela',
-                                payload: '-Amarela'
-                            },
-                            {
-                                type: 'postback',
-                                title: 'Azul',
-                                payload: '-Azul'
-                            },
-                            {
-                                type: 'postback',
-                                title: 'Verde',
-                                payload: '-Verde'
-                            },
-                            {
-                                type: 'postback',
-                                title: 'Lilás',
-                                payload: '-Lilás'
-                            },
-                        ]
-                    }
-                }
-            }
-        };
-
-        this.callSendApi(messageData);
-    },
-
-    callSendApi(messageData) {
-        request({
-            url: 'https://graph.facebook.com/v2.12/me/messages',
-            qs: {
-                access_token: 'EAAC8xciVqogBAAKMrNIpB1gU1ewlACNc6dNtZAF1uc4G990OdDXMB9zn48sGLlkWIJZAezx9WVPsTHVRccRlGtnZCKBPXuKhrboK493EFySyZBmHvvjPQIrMOs3wDQgqeq7ELESIZCJVZAyTuZBNWpZCUhAZCXR4EVWAEQhRsyzo1Ra7whQDud7HN'
-            },
-            method: 'POST',
-            json: messageData,
-        }, function (err, res, body) {
-
-            if (err) {
-                console.log(err);
-            } else if (res.statusCode == 200) {
-                console.log(`Message sended. to ${body.recipient_id}`);
-                var recipientId = body.recipient_id;
-                var messageId = body.message_id;
-            }
-        });
-
     },
 
     async sendStatusLine(payload) {

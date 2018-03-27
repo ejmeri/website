@@ -1,1 +1,1 @@
-web: node clusters
+web: node app

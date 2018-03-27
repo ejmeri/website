@@ -45,12 +45,13 @@ router.post('/webhook', async function (req, res) {
                             if (payload == 'Amarela')
                                 text = await Messenger.sendStatusLineYellow();
                             else if (payload == 'cptm') {
-                                sendMenuCptm(event.sender.id);
+                                Messenger.sendMenuCptm(event.sender.id);
                                 text = 'Em breve, teremos status com as linhas da CPTM :)'
                             } else
                                 text = await Messenger.sendStatusLine(payload);
 
-                            Messenger.sendTextMessage(event.sender.id, text);
+                            console.log(text);
+                            await Messenger.sendTextMessage(event.sender.id, text);
 
                         }
 

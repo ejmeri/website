@@ -31,31 +31,6 @@ function trataMessage(event) {
     }
 }
 
-
-function sendMenuCptm(recipientId) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: "CPTM",
-                    buttons: [{
-                        type: "web_url",
-                        url: "http://www.cptm.sp.gov.br/Pages/Home.aspx",
-                        title: "Acesse o site da CPTM."
-                    }]
-                }
-            }
-        }
-    };
-
-    this.callSendApi(messageData);
-}
-
 function sendFirstMenu(recipientId) {
     var messageData = {
         recipient: {
@@ -123,7 +98,31 @@ function callSendApi(messageData) {
 
 }
 
-exports.sendTextMessage = (recipientId, messageText) => {
+exports.sendMenuCptm = (recipientId) => {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "CPTM",
+                    buttons: [{
+                        type: "web_url",
+                        url: "http://www.cptm.sp.gov.br/Pages/Home.aspx",
+                        title: "Acesse o site da CPTM."
+                    }]
+                }
+            }
+        }
+    };
+
+    this.callSendApi(messageData);
+}
+
+exports.sendTextMessage = async (recipientId, messageText) => {
     var messageData = {
         recipient: {
             id: recipientId
@@ -165,7 +164,6 @@ exports.sendStatusLine = async (payload) => {
 
 }
 
-
 exports.sendStatusLineYellow = async () => {
     var text = '';
     
@@ -177,11 +175,9 @@ exports.sendStatusLineYellow = async () => {
         }
 
         text += `Horário: ${value.CurrentLineStatus.DateUpdateFormated}`;
-
     }).catch(err => {
        text = err;
     });
 
     return text;
-
 }

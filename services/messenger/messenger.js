@@ -1,3 +1,5 @@
+"use strict";
+
 let request = require('request');
 const getLines = require('../metro/lines');
 

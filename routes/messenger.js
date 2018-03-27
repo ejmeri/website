@@ -255,7 +255,7 @@ async function sendStatusLine(payload) {
             }
 
             
-            text += `\nHorário:${retorno.StatusMetro.DateUpdateMetro}`;
+            text += `\nHorário: ${retorno.StatusMetro.DateUpdateMetro}`;
 
         }
     });

@@ -3,7 +3,7 @@
 let request = require('request');
 const getLines = require('../metro/lines');
 
-class Messenger {
+module.exports = {
 
     trataMessage(event) {
         var senderId = event.sender.id;
@@ -32,7 +32,7 @@ class Messenger {
         } else if (files) {
             sendTextMessage(senderId, "Send more attachments.");
         }
-    }
+    },
 
     sendTextMessage(recipientId, messageText) {
         var messageData = {
@@ -44,9 +44,8 @@ class Messenger {
             }
         };
 
-
-        // this.callSendApi(messageData);
-    }
+        callSendApi(messageData);
+    },
 
     sendMenuCptm(recipientId) {
         var messageData = {
@@ -70,7 +69,7 @@ class Messenger {
         };
 
         this.callSendApi(messageData);
-    }
+    },
 
     sendFirstMenu(recipientId) {
         var messageData = {
@@ -116,7 +115,7 @@ class Messenger {
         };
 
         this.callSendApi(messageData);
-    }
+    },
 
     callSendApi(messageData) {
         request({
@@ -137,7 +136,7 @@ class Messenger {
             }
         });
 
-    }
+    },
 
     async sendStatusLine(payload) {
         var text = 'erro';
@@ -169,5 +168,3 @@ class Messenger {
     }
 
 }
-
-module.exports = Messenger;

@@ -44,7 +44,7 @@ router.post('/webhook', async function (req, res) {
                             if (payload == 'Lilas')
                                 payload = payload.replace('a', 'á');
 
-                            payload = await Messenger.prototype.sendStatusLine(payload);
+                            payload = await Messenger.sendStatusLine(payload);
                             Messenger.prototype.sendTextMessage(event.sender.id, payload);
                         }
 

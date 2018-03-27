@@ -37,19 +37,19 @@ router.post('/webhook', async function (req, res) {
                         var payload = event.postback.payload;
 
                         if (payload == 'GET_STARTED_PAYLOAD')
-                            Messenger.sendTextMessage(event.sender.id, 'Olá, tudo bem? Para ver o status de alguma linha utitlize o menu :D');
+                            Messenger.prototype.sendTextMessage(event.sender.id, 'Olá, tudo bem? Para ver o status de alguma linha utitlize o menu :D');
                         else if (payload == 'HELP_PAYLOAD')
-                            Messenger.sendTextMessage(event.sender.id, 'Olá, sou o Metrozera :)\n\nPara ver o status de alguma linha utitlize o menu :D');
+                            Messenger.prototype.sendTextMessage(event.sender.id, 'Olá, sou o Metrozera :)\n\nPara ver o status de alguma linha utitlize o menu :D');
                         else {
                             if (payload == 'Lilas')
                                 payload = payload.replace('a', 'á');
 
-                            payload = await Messenger.sendStatusLine(payload);
-                            Messenger.sendTextMessage(event.sender.id, payload);
+                            payload = await Messenger.prototype.sendStatusLine(payload);
+                            Messenger.prototype.sendTextMessage(event.sender.id, payload);
                         }
 
                     } else
-                        Messenger.sendTextMessage(event.sender.id, 'Error 404');
+                        Messenger.prototype.sendTextMessage(event.sender.id, 'Error 404');
                 }
             });
         });

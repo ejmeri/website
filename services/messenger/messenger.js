@@ -166,18 +166,17 @@ exports.sendStatusLine = async (payload) => {
 
 exports.sendStatusLineYellow = async () => {
     var text = 'erro';
+    const yellow = await getLines();
     
-    getLines().then(function (value) {
-        text = `Status: ${value.CurrentLineStatus.Status} :)\n\n`;
+    console.log(yellow.CurrentLineStatus, ' lineyellow');
 
-        if (value.CurrentLineStatus.Description) {
-            text += `Descrição: ${value.CurrentLineStatus.Description}\n\n`;
-        }
+    text = `Status: ${yellow.CurrentLineStatus.Status} :)\n\n`;
 
-        text += `Horário: ${value.CurrentLineStatus.DateUpdateFormated}`;
-    }).catch(err => {
-       text = err;
-    });
+    if (yellow.CurrentLineStatus.Description) {
+        text += `Descrição: ${yellow.CurrentLineStatus.Description}\n\n`;
+    }
+
+    text += `Horário: ${yellow.CurrentLineStatus.DateUpdateFormated}`;
 
     console.log(text, ' function');
     return text;

@@ -166,18 +166,20 @@ exports.sendStatusLine = async (payload) => {
 
 exports.sendStatusLineYellow = async () => {
     var text = 'erro';
-    const yellow = await getLines();
     
-    console.log(yellow.CurrentLineStatus, ' lineyellow');
+    const yellow = await getLines();
 
-    text = `Status: ${yellow.CurrentLineStatus.Status} :)\n\n`;
+    if (yellow.CurrentLineStatus) {
+        text = 'Linha 4 - Amarela\n\n'
+        text += `Status: ${yellow.CurrentLineStatus.Status} :)\n`;
 
-    if (yellow.CurrentLineStatus.Description) {
-        text += `Descrição: ${yellow.CurrentLineStatus.Description}\n\n`;
-    }
+        if (yellow.CurrentLineStatus.Description) {
+            text += `Descrição: ${yellow.CurrentLineStatus.Description}\n\n`;
+        }
 
-    text += `Horário: ${yellow.CurrentLineStatus.DateUpdateFormated}`;
+        text += `Horário: ${yellow.CurrentLineStatus.DateUpdateFormated}`;
+    } else
+        text = 'Erro ao consultar status da linha 4 - amarela :(';
 
-    console.log(text, ' function');
     return text;
 }

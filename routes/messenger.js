@@ -50,7 +50,7 @@ router.post('/webhook', async function (req, res) {
                             } else
                                 text = await Messenger.sendStatusLine(payload);
 
-                            console.log(text);
+                            console.log(text, ' messenger');
                             await Messenger.sendTextMessage(event.sender.id, text);
 
                         }

@@ -165,7 +165,7 @@ exports.sendStatusLine = async (payload) => {
 }
 
 exports.sendStatusLineYellow = async () => {
-    var text = '';
+    var text = 'erro';
     
     getLines().then(function (value) {
         text = `Status: ${value.CurrentLineStatus.Status} :)\n\n`;
@@ -179,5 +179,6 @@ exports.sendStatusLineYellow = async () => {
        text = err;
     });
 
+    console.log(text, ' function');
     return text;
 }

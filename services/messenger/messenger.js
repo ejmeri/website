@@ -111,7 +111,7 @@ exports.sendMenuCptm = (recipientId) => {
                     text: "CPTM",
                     buttons: [{
                         type: "web_url",
-                        url: "http://www.cptm.sp.gov.br/Pages/Home.aspx",
+                        url: "http://www.cptm.sp.gov.br/Pages/Home.aspx#destaques",
                         title: "Acesse o site da CPTM."
                     }]
                 }

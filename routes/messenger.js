@@ -5,7 +5,7 @@ var router = require('express').Router();
 var Messenger = require('../services/messenger/messenger');
 
 router.get('/', (req, res) => {
-    res.send();
+    res.send('Olá Mundo!');
 });
 
 router.get('/webhook', function (req, res) {
@@ -50,7 +50,6 @@ router.post('/webhook', async function (req, res) {
                             } else
                                 text = await Messenger.sendStatusLine(payload);
 
-                            console.log(text, ' messenger');
                             await Messenger.sendTextMessage(event.sender.id, text);
 
                         }

@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "My first bot app!",
   "engines": {
-    "node": "8.9.4",
     "npm": "latest"
   },
   "dependencies": {
